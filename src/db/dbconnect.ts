@@ -4,7 +4,7 @@ export const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "Ajibolas7",
-    database: "task-manager"
+    database: "task_manager"
 })
 
 

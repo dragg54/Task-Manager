@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { Task } from "models/task"
+import { Task } from "../models/task"
 
 export const createTask=(req:Request, res: Response)=>{
     let{name, description, status} = req.body

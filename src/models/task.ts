@@ -1,5 +1,5 @@
-import { con } from "db/dbconnect"
-import { ITask } from "types/task"
+import { con } from "../db/dbconnect"
+import { ITask } from "../types/task"
 
 export class Task implements ITask {
     public userId: number

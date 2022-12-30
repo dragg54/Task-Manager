@@ -1,24 +1,28 @@
-import { findUserByEmail, findUserByEmailAndPassword } from "db/queries"
-import { User } from "models/user"
 import { Response, Request, NextFunction } from "express";
-import { hashPassword, unHashPassword } from "utils/helpers";
 import jwt from "jsonwebtoken"
-import { Task } from "types/task";
+import { findUserByEmail } from "../db/queries";
+import { User } from "../models/user";
+import { checkUserExists, hashPassword, unHashPassword } from "../utils/helpers";
 
 export const createUser = (req: Request, res: Response) => {
     let { firstName, lastName, email, password } = req.body
-    findUserByEmail(email)
-        .then(() => {
+    checkUserExists(email)
+        .then((data) => {
+            console.log("hello")
             hashPassword(password)
                 .then(<T>(password: T) => {
                     const user = new User(firstName, lastName, email, password as string)
                     user.createUser()
                         .then(() => {
                             res.status(200).json(user)
+                        }).catch((err) => {
+                            console.log(err)
                         })
+                }).catch((err)=>{
+                    console.log(err)
                 })
-        }).catch((error) => {
-            res.status(409).json({ message: error })
+        }).catch((err)=>{
+            console.log(err)
         })
 }
 
@@ -26,14 +30,15 @@ export const loginUser = (req: Request, res: Response) => {
     let { email, password } = req.body
     findUserByEmail(email)
         .then((user: any) => {
-            unHashPassword(password, user.password)
-                .then(() => {
-                    const token = jwt.sign({ id: user.id }, "ihihoahhh9hh")
+            unHashPassword(JSON.parse(user).password, password)
+                .then((status) => {
+                    console.log("hello")
+                    const token = jwt.sign({ id: JSON.parse(user).id }, "ihihoahhh9hh")
                     res.header("token", token).send(token)
-                }).catch((error)=>{
-                    console.log(error)
+                }).catch((error) => {
+                    console.log({"error:":error})
                 })
-        }).then((error)=>{
-            res.status(404).json({message: error})
+        }).catch((error) => {
+            res.status(404).json({ message: error })
         })
 }
