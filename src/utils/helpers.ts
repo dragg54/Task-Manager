@@ -13,3 +13,14 @@ export const hashPassword = (password: string) =>{
         })
     })
 }
+
+export const unHashPassword = (existingPassword: string, loginPassword: string)=>{
+    return new Promise((resolve, reject)=>{
+        bcrypt.compare(loginPassword, existingPassword, (err, isMatch)=>{
+            if(!err){
+                resolve
+            }
+            reject(err)
+        })
+    })
+}
