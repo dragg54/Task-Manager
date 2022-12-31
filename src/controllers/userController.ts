@@ -22,7 +22,7 @@ export const createUser = (req: Request, res: Response) => {
                     console.log(err)
                 })
         }).catch((err)=>{
-            console.log(err)
+            res.status(409).send(err)
         })
 }
 

@@ -1,4 +1,4 @@
-enum taskStatus{
+export enum taskStatus{
     todo,
     doing,
     done
