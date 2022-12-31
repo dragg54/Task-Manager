@@ -17,7 +17,7 @@ export const getUserTasks = (req: IUserRequest, res: Response) => {
     return new Promise((resolve, reject) => {
         const task = new Task()
         task.getTasks(req)
-            .then(<T>(data: T) => {
+            .then((data) => {
                res.status(200).json(JSON.parse(data as string))
             }).catch((err) => {
                 res.status(500).send({message: err})
