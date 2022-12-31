@@ -27,7 +27,7 @@ export const createUserRequest = (firstName: string, lastName: string, email: st
     })
 }
 
-export const createTaskRequest = (name: string | undefined, description: string | undefined, userId: number, status: taskStatus | undefined, createAt: string) => {
+export const createTaskRequest = (name: string | undefined, description: string | undefined, userId: number | undefined, status: taskStatus | undefined, createAt: string) => {
     return new Promise((resolve, reject) => {
         con.query(`INSERT INTO task(name, description, user_id, status, created_at)
         VALUES('${name}', '${description}', '${userId}', '${status}', '${createAt}')`, (err, rows, fields) => {
@@ -42,8 +42,8 @@ export const createTaskRequest = (name: string | undefined, description: string 
     })
 }
 
-export const getTasksRequest = (userId: number)=>{
-    return new Promise((resolve, reject)=>[
+export const getTasksRequest = (userId: number | undefined)=>{
+    return new Promise((resolve, reject)=>{
         con.query(`SELECT * FROM task WHERE user_id = ${userId}`, (err, rows, fields)=>{
             if(rows){
                 resolve(JSON.stringify(rows))
@@ -52,5 +52,5 @@ export const getTasksRequest = (userId: number)=>{
                 reject(err)
             }
         })
-    ])
+})
 }

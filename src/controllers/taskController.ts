@@ -1,10 +1,11 @@
 import { Request, Response } from "express"
 import { Task } from "../models/task"
+import { IUserRequest } from "../requests/user"
 
-export const createTask = (req: Request, res: Response) => {
+export const createTask = (req: IUserRequest, res: Response) => {
     let { name, description, status } = req.body
     const task = new Task(name, description, status)
-    task.createTask()
+    task.createTask(req)
         .then((response) => {
             res.status(200).json(task)
         }).catch((error) => {
@@ -12,10 +13,10 @@ export const createTask = (req: Request, res: Response) => {
         })
 }
 
-export const getUserTasks = (req: Request, res: Response) => {
+export const getUserTasks = (req: IUserRequest, res: Response) => {
     return new Promise((resolve, reject) => {
         const task = new Task()
-        task.getTasks()
+        task.getTasks(req)
             .then(<T>(data: T) => {
                res.status(200).json(JSON.parse(data as string))
             }).catch((err) => {

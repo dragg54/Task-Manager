@@ -9,7 +9,7 @@ import taskRoute from "./routes/taskRoutes"
 const app = express()
 connectDb()
 app.use(cors())
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: false}))
 dotenv.config({path:"./env"})
 app.use("/", taskRoute)
 app.use("/", userRoute)
