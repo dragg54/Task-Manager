@@ -10,7 +10,7 @@ export const createUser = (req: Request, res: Response) => {
         .then((data) => {
             console.log("hello")
             hashPassword(password)
-                .then(<T>(password: T) => {
+                .then((password) => {
                     const user = new User(firstName, lastName, email, password as string)
                     user.createUser()
                         .then(() => {
