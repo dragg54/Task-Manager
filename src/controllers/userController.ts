@@ -14,9 +14,9 @@ export const createUser = (req: Request, res: Response) => {
                     const user = new User(firstName, lastName, email, password as string)
                     user.createUser()
                         .then(() => {
-                            res.status(200).json(user)
+                            res.status(200).json({data: user})
                         }).catch((err) => {
-                            console.log(err)
+                            res.status(500).send({message: err})
                         })
                 }).catch((err)=>{
                     console.log(err)
@@ -34,7 +34,7 @@ export const loginUser = (req: Request, res: Response) => {
                 .then((status) => {
                     console.log("hello")
                     const token = jwt.sign({ id: JSON.parse(user).id }, "ihihoahhh9hh")
-                    res.header("token", token).send(token)
+                    res.header("token", token).json({token})
                 }).catch((error) => {
                     console.log({"error:":error})
                 })

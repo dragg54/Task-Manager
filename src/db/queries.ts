@@ -28,7 +28,7 @@ export const createUserRequest = (firstName: string, lastName: string, email: st
 }
 
 export const createTaskRequest = (name: string | undefined, description: string | undefined,
-     userId: number | undefined, status: taskStatus | undefined, createAt: string) => {
+    userId: number | undefined, status: taskStatus | undefined, createAt: string) => {
     return new Promise((resolve, reject) => {
         con.query(`INSERT INTO task(name, description, user_id, status, created_at)
         VALUES('${name}', '${description}', '${userId}', '${status}', '${createAt}')`, (err, rows, fields) => {
@@ -43,15 +43,41 @@ export const createTaskRequest = (name: string | undefined, description: string 
     })
 }
 
-export const getTasksRequest = (userId: number | undefined)=>{
-    return new Promise((resolve, reject)=>{
-        con.query(`SELECT * FROM task WHERE user_id = ${userId}`, (err, rows, fields)=>{
-            if(rows){
+export const getTasksRequest = (userId: number | undefined) => {
+    return new Promise((resolve, reject) => {
+        con.query(`SELECT * FROM task WHERE user_id = ${userId}`, (err, rows, fields) => {
+            if (rows) {
                 resolve(JSON.stringify(rows))
             }
-            else{
+            else {
                 reject(err)
             }
         })
-})
+    })
+}
+
+export const updateTaskByIdRequest = (id: string, name: string | undefined, description: string | undefined, status: taskStatus | undefined) => {
+    return new Promise((resolve, reject) => {
+        con.query(`UPDATE task SET name = '${name}',
+        description = '${description}',
+        status = '${status}'
+        WHERE id = ${id},
+        `, (err, rows, fields)=>{
+            if(!err){
+                resolve(rows)
+            }
+            reject(err)
+        })
+    })
+}
+
+export const deleteTaskRequest = (id: string) => {
+    return new Promise((resolve, reject) => {
+        con.query(`DELETE FROM task WHERE id = id`, (err, rows, fields) => {
+            if (!err) {
+                resolve(rows)
+            }
+            reject(err)
+        })
+    })
 }

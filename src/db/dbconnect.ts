@@ -1,18 +1,21 @@
 import mysql from "mysql"
+import {env} from "process"
 
-const host = process.env.HOST
-const user = process.env.USER
-const password = process.env.PASSWORD
+const host = env.HOST
+const user = env.USER
+const password = env.PASSWORD
+const database = env.DATABASE
 export const con = mysql.createConnection({
     host,
-    user: "root",
-    password: "Ajibolas7",
-    database: "task_manager"
+    user,
+    password,
+    database
 })
 
 
 
 export const connectDb = async() => {
+    console.log(env.PASSWORD)
     con.connect((err)=>{
         if(!err) console.log("db connected")
     })

@@ -1,26 +1,54 @@
 import { Request, Response } from "express"
 import { Task } from "../models/task"
+import { ITaskRequest } from "../requests/task"
 import { IUserRequest } from "../requests/user"
 
-export const createTask = (req: IUserRequest, res: Response) => {
+export const createTask = (req: ITaskRequest, res: Response) => {
     let { name, description, status } = req.body
     const task = new Task(name, description, status)
     task.createTask(req)
         .then((response) => {
-            res.status(200).json(task)
+            res.status(200).json({data: task})
         }).catch((error) => {
             res.status(500).json({ message: error })
         })
 }
 
-export const getUserTasks = (req: IUserRequest, res: Response) => {
+export const findAllTasks = (req: ITaskRequest, res: Response) => {
     return new Promise((resolve, reject) => {
         const task = new Task()
         task.getTasks(req)
             .then((data) => {
-               res.status(200).json(JSON.parse(data as string))
+                res.status(200).json({data:JSON.parse(data as string)})
             }).catch((err) => {
-                res.status(500).send({message: err})
+                res.status(500).send({ message: err })
             })
     })
+}
+
+export const updateTask = (req: Request, res: Response) => {
+    let { name, description, status } = req.body
+    const taskId = req.params.id
+    const task = new Task(name, description, status)
+    if(taskId){
+        task.updateTask(taskId)
+        .then((result)=>{
+            res.status(200).json({data: task})
+        }).catch((error)=>{
+            res.status(500).json({message: error})
+        })
+    }
+}
+
+export const deleteTask = (req: Request, res: Response) =>{
+    const taskId = req.params.id
+    const task = new Task()
+    if(taskId){
+        task.deleteTask(taskId)
+        .then((response)=>{
+            res.status(200).json({message: `task with id ${taskId} deleted`})
+        }).catch((err)=>{
+            res.status(500).json({message: err})
+        })
+    }
 }

@@ -1,5 +1,4 @@
-import { con } from "../db/dbconnect"
-import { createTaskRequest, getTasksRequest } from "../db/queries"
+import { createTaskRequest, deleteTaskRequest, getTasksRequest, updateTaskByIdRequest } from "../db/queries"
 import { IUserRequest } from "../requests/user"
 import { taskStatus } from "../types/status"
 import { ITask } from "../types/task"
@@ -13,7 +12,7 @@ export class Task implements ITask {
     createTask(req: IUserRequest) {
         return new Promise((resolve, reject) => {
             createTaskRequest(this.name, this.description, req.user?.id,
-                 this.status, this.createAt.toISOString().split('T')[0])
+                this.status, this.createAt.toISOString().split('T')[0])
                 .then((result) => {
                     resolve(result)
                 }).catch((err) => {
@@ -25,6 +24,28 @@ export class Task implements ITask {
     getTasks(req: IUserRequest) {
         return new Promise((resolve, reject) => {
             getTasksRequest(req.user?.id)
+                .then((result) => {
+                    resolve(result)
+                }).catch((err) => {
+                    reject(err)
+                })
+        })
+    }
+
+    updateTask(id: string) {
+        return new Promise((resolve, reject) => {
+            updateTaskByIdRequest(id, this.name, this.description, this.status)
+                .then((result) => {
+                    resolve(result)
+                }).catch((err) => {
+                    reject(err)
+                })
+        })
+    }
+
+    deleteTask(id: string) {
+        return new Promise((resolve, reject) => {
+            deleteTaskRequest(id)
                 .then((result) => {
                     resolve(result)
                 }).catch((err) => {
