@@ -32,7 +32,6 @@ export const loginUser = (req: Request, res: Response) => {
         .then((user: any) => {
             unHashPassword(JSON.parse(user).password, password)
                 .then((status) => {
-                    console.log("hello")
                     const token = jwt.sign({ id: JSON.parse(user).id }, "ihihoahhh9hh")
                     res.header("token", token).json({token})
                 }).catch((error) => {
