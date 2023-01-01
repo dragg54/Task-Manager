@@ -7,12 +7,13 @@ import cors from "cors"
 import taskRoute from "./routes/taskRoutes"
 
 const app = express()
+dotenv.config({path:__dirname + "/.env"})
 connectDb()
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
-dotenv.config({path:"./env"})
 app.use("/", taskRoute)
 app.use("/", userRoute)
-app.listen("3000", ()=>{
-    console.log("listening to port 3000")
+const port = process.env.PORT
+app.listen(port, ()=>{
+    console.log(`listening to port ${port}`)
 })

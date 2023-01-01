@@ -12,7 +12,8 @@ export class Task implements ITask {
 
     createTask(req: IUserRequest) {
         return new Promise((resolve, reject) => {
-            createTaskRequest(this.name, this.description, req.user?.id, this.status, this.createAt.toISOString().split('T')[0])
+            createTaskRequest(this.name, this.description, req.user?.id,
+                 this.status, this.createAt.toISOString().split('T')[0])
                 .then((result) => {
                     resolve(result)
                 }).catch((err) => {

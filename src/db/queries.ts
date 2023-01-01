@@ -27,7 +27,8 @@ export const createUserRequest = (firstName: string, lastName: string, email: st
     })
 }
 
-export const createTaskRequest = (name: string | undefined, description: string | undefined, userId: number | undefined, status: taskStatus | undefined, createAt: string) => {
+export const createTaskRequest = (name: string | undefined, description: string | undefined,
+     userId: number | undefined, status: taskStatus | undefined, createAt: string) => {
     return new Promise((resolve, reject) => {
         con.query(`INSERT INTO task(name, description, user_id, status, created_at)
         VALUES('${name}', '${description}', '${userId}', '${status}', '${createAt}')`, (err, rows, fields) => {
