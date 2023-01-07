@@ -8,13 +8,12 @@ export const createUser = (req: Request, res: Response) => {
     let { firstName, lastName, email, password } = req.body
     checkUserExists(email)
         .then((data) => {
-            console.log("hello")
             hashPassword(password)
                 .then((password) => {
                     const user = new User(firstName, lastName, email, password as string)
                     user.createUser()
-                        .then(() => {
-                            res.status(200).json({data: user})
+                        .then((response) => {
+                            res.status(200).json({data: JSON.parse(response as string)})
                         }).catch((err) => {
                             res.status(500).send({message: err})
                         })

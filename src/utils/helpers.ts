@@ -33,7 +33,8 @@ export const checkUserExists = (email: string)=>{
     return new Promise((resolve, reject)=>{
         findUserByEmail(email)
         .then((result:any)=>{
-            if(result.length < 1){
+            console.log(result)
+            if(!result){
              resolve(result)   
             }
             else{

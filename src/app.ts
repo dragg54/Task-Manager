@@ -1,19 +1,15 @@
-import express from "express"
 import bodyParser from "body-parser"
-import dotenv from "dotenv"
-import { connectDb } from "./db/dbconnect"
-import userRoute from "./routes/userRoute"
 import cors from "cors"
+import express from "express"
 import taskRoute from "./routes/taskRoutes"
+import userRoute from "./routes/userRoute"
 
 const app = express()
-connectDb()
+
 app.use(cors())
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}))
 app.use("/", taskRoute)
 app.use("/", userRoute)
-dotenv.config({path:__dirname + "/.env"})
-const port = process.env.PORT
-app.listen(port, ()=>{
-    console.log(`listening to port ${port}`)
-})
+
+module.exports = app

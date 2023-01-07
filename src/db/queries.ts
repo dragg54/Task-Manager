@@ -12,10 +12,10 @@ export const findUserByEmail = (email: string) => {
     })
 }
 
-export const createUserRequest = (firstName: string, lastName: string, email: string, password: string) => {
+export const createUserRequest = (firstName?: string, lastName?: string, email?: string, password?: string) => {
     return new Promise((resolve, reject) => {
-        con.query(`INSERT INTO task(first_name, last_name, email, password)
-        VALUES('${firstName}', '${lastName}', '${email}', '${password}',)`, (err, rows, fields) => {
+        con.query(`INSERT INTO user(first_name, last_name, email, password)
+        VALUES('${firstName}', '${lastName}', '${email}', '${password}')`, (err, rows, fields) => {
             if (rows) {
                 resolve(rows)
             }

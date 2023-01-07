@@ -6,10 +6,10 @@ let user = env.USER
 let password = env.PASSWORD
 let database = env.DATABASE
 export const con = mysql.createConnection({
-    host,
-    user,
-    password,
-    database
+    host: "localhost",
+    user: "root",
+    password: "Ajibolas7",
+    database:"task_manager"
 })
 
 

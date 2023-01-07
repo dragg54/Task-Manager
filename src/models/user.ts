@@ -4,12 +4,12 @@ import { IUser } from "../types/user";
 
 
 export class User implements IUser {
-    constructor(public firstName: string, public lastName: string, public email: string, public password: string) { }
+    constructor(public firstName?: string, public lastName?: string, public email?: string, public password?: string) { }
     createUser() {
         return new Promise((resolve, reject) => {
             createUserRequest(this.firstName, this.lastName, this.email, this.password)
                 .then((result) => {
-                    resolve(result)
+                    resolve(JSON.stringify(result))
                 }).catch((err) => {
                     reject(err)
                 })
