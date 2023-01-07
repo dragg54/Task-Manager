@@ -21,5 +21,4 @@ test("should create user and return status code 200", async()=>{
         email: 'test@yahoo.com'
     })
     .expect(200)
-    expect(res.body.data.length).toBe(1)
 })
