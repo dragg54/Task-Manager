@@ -1,5 +1,7 @@
 import { con } from "./dbconnect"
 import { taskStatus } from "../types/status"
+import { IUserRequest } from "../requests/user"
+import { ITaskRequest } from "../requests/task"
 
 export const findUserByEmail = (email: string) => {
     return new Promise((resolve, reject) => {
@@ -75,6 +77,35 @@ export const deleteTaskRequest = (id: string) => {
     return new Promise((resolve, reject) => {
         con.query(`DELETE FROM task WHERE id = id`, (err, rows, fields) => {
             if (!err) {
+                resolve(rows)
+            }
+            reject(err)
+        })
+    })
+}
+
+export const findTask = (req: IUserRequest) =>{
+    return new Promise((resolve, reject)=>{
+        con.query(`SELECT * FROM task WHERE user_id=${req.user?.id}`, (err, rows)=>{
+            if(!err){
+                resolve(rows)
+            }
+            reject(err)
+        })
+    })
+}
+
+/* export const findCurentUser = () =>{
+    return new Promise((resolve, reject)=>{
+        
+    })
+}
+ */
+
+export const updateTaskStatusRequest = (id:string, status: string)=>{
+    return new Promise((resolve, reject) =>{
+        con.query(`UPDATE task SET status = '${status}' WHERE id = ${id}`, (err, rows)=>{
+            if(!err){
                 resolve(rows)
             }
             reject(err)

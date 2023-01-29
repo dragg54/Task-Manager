@@ -20,5 +20,4 @@ test("should create user and return status code 200", async()=>{
         password: 'ajibola',
         email: 'test@yahoo.com'
     })
-    .expect(200)
-})
+    .expect(200)})

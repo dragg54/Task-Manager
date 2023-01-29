@@ -13,14 +13,14 @@ export const createUser = (req: Request, res: Response) => {
                     const user = new User(firstName, lastName, email, password as string)
                     user.createUser()
                         .then((response) => {
-                            res.status(200).json({data: JSON.parse(response as string)})
+                            res.status(200).json({ data: user })
                         }).catch((err) => {
-                            res.status(500).send({message: err})
+                            res.status(500).json({ message: err })
                         })
-                }).catch((err)=>{
+                }).catch((err) => {
                     console.log(err)
                 })
-        }).catch((err)=>{
+        }).catch((err) => {
             res.status(409).send(err)
         })
 }
@@ -32,11 +32,14 @@ export const loginUser = (req: Request, res: Response) => {
             unHashPassword(JSON.parse(user).password, password)
                 .then((status) => {
                     const token = jwt.sign({ id: JSON.parse(user).id }, "ihihoahhh9hh")
-                    res.header("token", token).json({token})
+                    res.header("token", token).send({ token })
                 }).catch((error) => {
-                    console.log({"error:":error})
+                    console.log(error)
+                    res.status(403).send({ message: error })
+                }).catch((error) => {
+                    res.send(error)
                 })
         }).catch((error) => {
-            res.status(404).json({ message: error })
+            res.send(error)
         })
 }

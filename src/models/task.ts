@@ -1,4 +1,4 @@
-import { createTaskRequest, deleteTaskRequest, getTasksRequest, updateTaskByIdRequest } from "../db/queries"
+import { createTaskRequest, deleteTaskRequest, findTask, getTasksRequest, updateTaskByIdRequest, updateTaskStatusRequest } from "../db/queries"
 import { IUserRequest } from "../requests/user"
 import { taskStatus } from "../types/status"
 import { ITask } from "../types/task"
@@ -32,6 +32,17 @@ export class Task implements ITask {
         })
     }
 
+    getTask(req: IUserRequest){
+        return new Promise((resolve, reject)=>{
+            findTask(req)
+            .then((result)=>{
+                resolve(result)
+            }).catch((err)=>{
+                reject(err)
+            })
+        })
+    }
+
     updateTask(id: string) {
         return new Promise((resolve, reject) => {
             updateTaskByIdRequest(id, this.name, this.description, this.status)
@@ -51,6 +62,17 @@ export class Task implements ITask {
                 }).catch((err) => {
                     reject(err)
                 })
+        })
+    }
+
+    updateTaskStatus(id: string, status: string){
+        return new Promise((resolve, reject)=>{
+            updateTaskStatusRequest(id, status)
+            .then((result)=>{
+                resolve(result)
+            }).catch((error)=>{
+                reject(error)
+            })
         })
     }
 }
