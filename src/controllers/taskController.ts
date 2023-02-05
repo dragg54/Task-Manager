@@ -35,15 +35,18 @@ export const findTask = (req: ITaskRequest, res: Response) =>{
 }
 
 export const updateTask = (req: Request, res: Response) => {
-    let { name, description, status } = req.body
+    let { description} = req.body
     const taskId = req.params.id
-    const task = new Task(name, description, status)
+    const task = new Task()
+    task.description = description
     if(taskId){
         task.updateTask(taskId)
         .then((result)=>{
-            res.status(200).json(task)
+            res.status(200).send(task)
         }).catch((error)=>{
             res.status(500).json({message: error})
+        }).catch((err)=>{
+            res.status(500).send({message: err})
         })
     }
 }

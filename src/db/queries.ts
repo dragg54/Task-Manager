@@ -58,12 +58,13 @@ export const getTasksRequest = (userId: number | undefined) => {
     })
 }
 
-export const updateTaskByIdRequest = (id: string, name: string | undefined, description: string | undefined, status: taskStatus | undefined) => {
+export const updateTaskByIdRequest = (id: string, description: string | undefined) => {
     return new Promise((resolve, reject) => {
-        con.query(`UPDATE task SET name = '${name}',
+        const updatedAt = new Date()
+        con.query(`UPDATE task SET
         description = '${description}',
-        status = '${status}'
-        WHERE id = ${id},
+        updated_at = '${updatedAt.toISOString().split('T')[0]}'
+        WHERE id = ${id}
         `, (err, rows, fields)=>{
             if(!err){
                 resolve(rows)
@@ -75,7 +76,7 @@ export const updateTaskByIdRequest = (id: string, name: string | undefined, desc
 
 export const deleteTaskRequest = (id: string) => {
     return new Promise((resolve, reject) => {
-        con.query(`DELETE FROM task WHERE id = id`, (err, rows, fields) => {
+        con.query(`DELETE FROM task WHERE id = ${id}`, (err, rows, fields) => {
             if (!err) {
                 resolve(rows)
             }

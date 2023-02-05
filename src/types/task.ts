@@ -5,4 +5,5 @@ export interface ITask{
     name?:string 
     description?: string 
     status?: taskStatus 
+    updatedAt: Date | undefined
 }

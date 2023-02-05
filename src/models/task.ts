@@ -4,15 +4,16 @@ import { taskStatus } from "../types/status"
 import { ITask } from "../types/task"
 
 export class Task implements ITask {
-    public createAt: Date
+    public createdAt: Date
+    public updatedAt: Date
     constructor(public name?: string, public description?: string, public status?: taskStatus) {
-        this.createAt = new Date()
     }
 
     createTask(req: IUserRequest) {
+        const createdAt = new Date()
         return new Promise((resolve, reject) => {
             createTaskRequest(this.name, this.description, req.user?.id,
-                this.status, this.createAt.toISOString().split('T')[0])
+                this.status, createdAt.toISOString().split('T')[0])
                 .then((result) => {
                     resolve(result)
                 }).catch((err) => {
@@ -45,7 +46,7 @@ export class Task implements ITask {
 
     updateTask(id: string) {
         return new Promise((resolve, reject) => {
-            updateTaskByIdRequest(id, this.name, this.description, this.status)
+            updateTaskByIdRequest(id,  this.description)
                 .then((result) => {
                     resolve(result)
                 }).catch((err) => {
